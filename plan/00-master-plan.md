@@ -43,17 +43,17 @@ Few products, clean catalog. White + Sky Blue theme. Professional manufacturing 
 
 ### Phase 1 — Project Setup & Foundation
 
-- [ ] `01` — Create Django/Wagtail project structure
-- [ ] `02` — Configure settings (base, dev, production)
-- [ ] `03` — Setup database connection (SQLite dev, MySQL prod with PyMySQL)
-- [ ] `04` — Create all Django apps (empty shells)
-- [ ] `05` — Configure URLs and installed apps
-- [ ] `06` — First migration & superuser creation
+- [x] `01` — Create Django/Wagtail project structure
+- [x] `02` — Configure settings (base, dev, production)
+- [x] `03` — Setup database connection (SQLite dev, MySQL prod with PyMySQL)
+- [x] `04` — Create all Django apps (empty shells)
+- [x] `05` — Configure URLs and installed apps
+- [x] `06` — First migration & superuser creation
 
 ### Phase 2 — Tailwind, Base Templates & Site Settings
 
-- [ ] `07` — Install and configure Tailwind CSS (white + sky blue theme)
-- [ ] `08` — Create base.html template
+- [x] `07` — Install and configure Tailwind CSS (white + sky blue theme)
+- [x] `08` — Create base.html template
 - [ ] `09` — Create header with navigation
 - [ ] `10` — Create footer template
 - [ ] `11` — Create SiteSettings model (logo, contact, social)
