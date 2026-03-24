@@ -260,26 +260,6 @@ install_dependencies() {
 }
 
 #===============================================================================
-# Install Node Dependencies & Build CSS
-#===============================================================================
-
-build_css() {
-    log_info "Building Tailwind CSS..."
-
-    cd "$APP_DIR"
-
-    if [ -f "$APP_DIR/package.json" ]; then
-        log_info "Installing Node dependencies..."
-        npm install
-
-        npm run build
-        log_success "Tailwind CSS built and minified."
-    else
-        log_warn "package.json not found. Skipping CSS build."
-    fi
-}
-
-#===============================================================================
 # Run Migrations
 #===============================================================================
 
@@ -460,7 +440,6 @@ main() {
     sync_code
     copy_env_files
     install_dependencies
-    build_css
     run_migrations
     create_superuser
     setup_pages

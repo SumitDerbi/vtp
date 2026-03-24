@@ -346,29 +346,6 @@ install_dependencies() {
 }
 
 #===============================================================================
-# Build Tailwind CSS
-#===============================================================================
-
-build_css() {
-    log_info "Building Tailwind CSS..."
-
-    cd "$APP_DIR"
-
-    if [ -f "$APP_DIR/package.json" ]; then
-        # Install node modules if not present
-        if [ ! -d "$APP_DIR/node_modules" ]; then
-            log_info "Installing Node dependencies..."
-            npm install
-        fi
-
-        npm run build
-        log_success "Tailwind CSS built and minified."
-    else
-        log_warn "package.json not found. Skipping CSS build."
-    fi
-}
-
-#===============================================================================
 # Run Migrations (Django)
 #===============================================================================
 
@@ -529,7 +506,6 @@ main() {
     sync_code
     copy_env_files
     install_dependencies
-    build_css
     run_migrations
     collect_static
     create_symlinks
