@@ -201,10 +201,10 @@ create_backup() {
 
     # Backup database (MySQL via credentials from .env)
     if [ -n "$ENV_FILE" ] && [ -f "$ENV_FILE" ]; then
-        DB_NAME=$(grep -s '^DATABASE_NAME=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'")
-        DB_USER=$(grep -s '^DATABASE_USER=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'")
-        DB_PASS=$(grep -s '^DATABASE_PASSWORD=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'")
-        DB_HOST=$(grep -s '^DATABASE_HOST=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "localhost")
+        DB_NAME=$(grep -s '^DATABASE_NAME=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'" | tr -d '\r')
+        DB_USER=$(grep -s '^DATABASE_USER=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'" | tr -d '\r')
+        DB_PASS=$(grep -s '^DATABASE_PASSWORD=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'" | tr -d '\r')
+        DB_HOST=$(grep -s '^DATABASE_HOST=' "$ENV_FILE" | cut -d'=' -f2 | tr -d '"' | tr -d "'" | tr -d '\r' || echo "localhost")
 
         if [ -n "$DB_NAME" ] && [ -n "$DB_USER" ] && command -v mysqldump &>/dev/null; then
             log_info "Backing up MySQL database: $DB_NAME ..."
@@ -306,6 +306,8 @@ copy_env_files() {
     # Copy .env file if specified and exists
     if [ -n "$ENV_FILE" ] && [ -f "$ENV_FILE" ]; then
         cp "$ENV_FILE" "$APP_DIR/.env"
+        # Strip Windows carriage returns (\r) to avoid parsing errors on Linux
+        sed -i 's/\r$//' "$APP_DIR/.env"
         log_success "Environment file copied: $ENV_FILE -> $APP_DIR/.env"
     fi
 

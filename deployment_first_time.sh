@@ -225,6 +225,8 @@ copy_env_files() {
 
     if [ -n "$ENV_FILE" ] && [ -f "$ENV_FILE" ]; then
         cp "$ENV_FILE" "$APP_DIR/.env"
+        # Strip Windows carriage returns (\r) to avoid parsing errors on Linux
+        sed -i 's/\r$//' "$APP_DIR/.env"
         log_success "Environment file copied: $ENV_FILE -> $APP_DIR/.env"
     fi
 
