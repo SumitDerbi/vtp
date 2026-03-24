@@ -10,6 +10,50 @@ class ContactPage(Page):
     parent_page_types = ["home.HomePage"]
     subpage_types = []
 
+    def serve(self, request):
+        from django.template.response import TemplateResponse
+
+        from .forms import ContactForm
+
+        if request.method == "POST":
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                submission = form.save()
+                self.send_notification_email(submission)
+                from django.shortcuts import redirect
+                return redirect(self.url + "?submitted=true")
+        else:
+            form = ContactForm()
+
+        context = self.get_context(request)
+        context["form"] = form
+        context["submitted"] = request.GET.get("submitted") == "true"
+
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            context,
+        )
+
+    def send_notification_email(self, submission):
+        from django.core.mail import send_mail
+
+        recipient = self.notification_email or self.email
+        if recipient:
+            send_mail(
+                subject=f"New Contact Form: {submission.subject or 'No Subject'}",
+                message=(
+                    f"Name: {submission.name}\n"
+                    f"Email: {submission.email}\n"
+                    f"Phone: {submission.phone}\n"
+                    f"Company: {submission.company}\n\n"
+                    f"Message:\n{submission.message}"
+                ),
+                from_email=None,
+                recipient_list=[recipient],
+                fail_silently=True,
+            )
+
     intro = RichTextField(blank=True)
     address = models.TextField(
         blank=True, help_text="Overrides SiteSettings address if filled"

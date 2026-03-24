@@ -80,16 +80,16 @@ Few products, clean catalog. White + Sky Blue theme. Professional manufacturing 
 
 ### Phase 5 — Forms, Admin Listings & Features
 
-- [ ] `26` — Contact form processing with email notification
-- [ ] `27` — Product enquiry form processing
-- [ ] `28` — Admin listings (contact responses, enquiries, downloads)
-- [ ] `29` — WhatsApp widget & scroll-to-top
+- [x] `26` — Contact form processing with email notification
+- [x] `27` — Product enquiry form processing
+- [x] `28` — Admin listings (contact responses, enquiries, downloads)
+- [x] `29` — WhatsApp widget & scroll-to-top
 
 ### Phase 6 — Setup Command & Content
 
-- [ ] `30` — Management command: setup_pages (create default page tree)
-- [ ] `31` — Image requirements document
-- [ ] `32` — Upload sample content & verify all pages
+- [x] `30` — Management command: setup_pages (create default page tree)
+- [x] `31` — Image requirements document
+- [x] `32` — Upload sample content & verify all pages
 
 ### Phase 7 — SEO, Deployment & Go-Live
 

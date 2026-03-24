@@ -21,6 +21,15 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
+      animation: {
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+      },
+      keyframes: {
+        "pulse-slow": {
+          "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(37, 211, 102, 0.5)" },
+          "50%": { transform: "scale(1.05)", boxShadow: "0 0 0 8px rgba(37, 211, 102, 0)" },
+        },
+      },
     },
   },
   plugins: [],
