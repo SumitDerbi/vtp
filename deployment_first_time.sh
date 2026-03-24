@@ -270,6 +270,13 @@ run_migrations() {
     source "$ACTIVATE_ENV"
     export DJANGO_SETTINGS_MODULE="vtp.settings.production"
 
+    # Load .env variables into the shell
+    if [ -f "$APP_DIR/.env" ]; then
+        set -a
+        source "$APP_DIR/.env"
+        set +a
+    fi
+
     if [ -f "$APP_DIR/manage.py" ]; then
         python manage.py migrate --noinput
         log_success "Database migrations completed."
@@ -289,6 +296,13 @@ create_superuser() {
     source "$ACTIVATE_ENV"
     export DJANGO_SETTINGS_MODULE="vtp.settings.production"
 
+    # Load .env variables into the shell
+    if [ -f "$APP_DIR/.env" ]; then
+        set -a
+        source "$APP_DIR/.env"
+        set +a
+    fi
+
     if [ -f "$APP_DIR/manage.py" ]; then
         python manage.py createsuperuser
         log_success "Superuser created."
@@ -306,6 +320,13 @@ setup_pages() {
     source "$ACTIVATE_ENV"
     export DJANGO_SETTINGS_MODULE="vtp.settings.production"
 
+    # Load .env variables into the shell
+    if [ -f "$APP_DIR/.env" ]; then
+        set -a
+        source "$APP_DIR/.env"
+        set +a
+    fi
+
     if [ -f "$APP_DIR/manage.py" ]; then
         python manage.py setup_pages
         log_success "Default pages created."
@@ -322,6 +343,13 @@ collect_static() {
     cd "$APP_DIR"
     source "$ACTIVATE_ENV"
     export DJANGO_SETTINGS_MODULE="vtp.settings.production"
+
+    # Load .env variables into the shell
+    if [ -f "$APP_DIR/.env" ]; then
+        set -a
+        source "$APP_DIR/.env"
+        set +a
+    fi
 
     if [ -f "$APP_DIR/manage.py" ]; then
         if [ -n "$STATIC_ROOT" ]; then

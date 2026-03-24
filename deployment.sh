@@ -358,6 +358,13 @@ run_migrations() {
     # Force production settings so migrations target MySQL, not SQLite
     export DJANGO_SETTINGS_MODULE="vtp.settings.production"
 
+    # Load .env variables into the shell
+    if [ -f "$APP_DIR/.env" ]; then
+        set -a
+        source "$APP_DIR/.env"
+        set +a
+    fi
+
     if [ -f "$APP_DIR/manage.py" ]; then
         log_info "Using settings: $DJANGO_SETTINGS_MODULE"
         python manage.py migrate --noinput
@@ -379,6 +386,13 @@ collect_static() {
 
     # Force production settings
     export DJANGO_SETTINGS_MODULE="vtp.settings.production"
+
+    # Load .env variables into the shell
+    if [ -f "$APP_DIR/.env" ]; then
+        set -a
+        source "$APP_DIR/.env"
+        set +a
+    fi
 
     if [ -f "$APP_DIR/manage.py" ]; then
         if [ -n "$STATIC_ROOT" ]; then
