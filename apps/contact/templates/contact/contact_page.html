@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailsettings_tags %}
+
+{% block breadcrumbs %}
+{% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-surface py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-secondary">{{ self.title }}</h1>
+    {% if self.intro %}
+    <div class="prose prose-lg text-gray-600 mx-auto mt-4">{{ self.intro|richtext }}</div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+      <!-- Left: Contact Form -->
+      <div>
+        <h2 class="text-2xl font-bold text-secondary mb-6">{{ self.form_heading }}</h2>
+
+        {% if success %}
+        <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+          <div class="flex items-center gap-3">
+            <svg class="h-6 w-6 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-green-800 font-medium">{{ self.success_message }}</p>
+          </div>
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'contact_form' %}" class="space-y-5" id="contact-form">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label for="cf-name" class="block text-sm font-medium text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
+              <input type="text" id="cf-name" name="name" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200">
+            </div>
+            <div>
+              <label for="cf-email" class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+              <input type="email" id="cf-email" name="email" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200">
+            </div>
+            <div>
+              <label for="cf-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+              <input type="tel" id="cf-phone" name="phone" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200">
+            </div>
+            <div>
+              <label for="cf-company" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+              <input type="text" id="cf-company" name="company" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200">
+            </div>
+          </div>
+          <div>
+            <label for="cf-subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+            <input type="text" id="cf-subject" name="subject" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200">
+          </div>
+          <div>
+            <label for="cf-message" class="block text-sm font-medium text-gray-700 mb-1">Message <span class="text-red-500">*</span></label>
+            <textarea id="cf-message" name="message" rows="5" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full text-center">Send Message</button>
+        </form>
+      </div>
+
+      <!-- Right: Contact Info & Map -->
+      <div class="space-y-8">
+        {% get_settings %}
+        <!-- Contact Info Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6 lg:p-8">
+          <h3 class="text-xl font-semibold text-secondary mb-6">Get in Touch</h3>
+          <ul class="space-y-5">
+            <li class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div>
+                <p class="font-medium text-secondary">Address</p>
+                <p class="text-steel text-sm mt-1">{{ self.address|default:settings.common.SiteSettings.address|default:"Pune, Maharashtra, India" }}</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              </div>
+              <div>
+                <p class="font-medium text-secondary">Phone</p>
+                <p class="text-steel text-sm mt-1">{{ self.phone|default:settings.common.SiteSettings.phone_primary|default:"+91 XXXXX XXXXX" }}</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <p class="font-medium text-secondary">Email</p>
+                <p class="text-steel text-sm mt-1">{{ self.email|default:settings.common.SiteSettings.email|default:"info@vpt.com" }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Google Maps -->
+        {% if self.google_maps_embed %}
+        <div class="rounded-xl overflow-hidden shadow-lg">
+          {{ self.google_maps_embed|safe }}
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+
+{% endblock %}

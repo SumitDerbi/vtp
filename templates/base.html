@@ -28,12 +28,14 @@
     {% block extra_css %}{% endblock %}
   </head>
   <body class="bg-white text-gray-800 font-sans antialiased">
-    {% wagtailuserbar %} {% include "includes/header.html" %} {% block
-    breadcrumbs %}{% endblock %}
+    {% wagtailuserbar %}
+    {% include "includes/header.html" %}
+    {% block breadcrumbs %}{% endblock %}
 
     <main>{% block content %}{% endblock %}</main>
 
     {% include "includes/footer.html" %}
+    {% include "includes/whatsapp_widget.html" %}
 
     <!-- Alpine.js -->
     <script

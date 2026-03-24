@@ -1,0 +1,43 @@
+<!-- Enquiry Form Include — pass 'product' variable -->
+<section id="enquiry" class="py-12 lg:py-16 bg-surface">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="section-heading text-center">Enquire About {{ product.title }}</h2>
+    <div class="bg-white rounded-xl shadow-lg p-6 lg:p-8 mt-8">
+      <div class="mb-6 p-3 bg-primary/5 rounded-lg border border-primary/20">
+        <p class="text-sm text-steel">Product: <strong class="text-secondary">{{ product.title }}</strong></p>
+      </div>
+      <form method="post" action="{% url 'product_enquiry' %}" class="space-y-5" id="enquiry-form">
+        {% csrf_token %}
+        <input type="hidden" name="product_page_id" value="{{ product.id }}">
+        <input type="hidden" name="product_name" value="{{ product.title }}">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label for="eq-name" class="block text-sm font-medium text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
+            <input type="text" id="eq-name" name="name" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Your Name *">
+          </div>
+          <div>
+            <label for="eq-email" class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+            <input type="email" id="eq-email" name="email" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Email Address *">
+          </div>
+          <div>
+            <label for="eq-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <input type="tel" id="eq-phone" name="phone" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Phone Number">
+          </div>
+          <div>
+            <label for="eq-company" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+            <input type="text" id="eq-company" name="company" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Company Name">
+          </div>
+        </div>
+        <div>
+          <label for="eq-quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+          <input type="text" id="eq-quantity" name="quantity" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Approximate Quantity">
+        </div>
+        <div>
+          <label for="eq-message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+          <textarea id="eq-message" name="message" rows="4" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200" placeholder="Your Requirements / Message"></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full text-center">Submit Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>

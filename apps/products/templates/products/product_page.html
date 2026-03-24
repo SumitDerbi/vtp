@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+{% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Product Detail -->
+<section class="py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12" x-data="{ mainImage: '{% if self.main_image %}{% image self.main_image fill-800x600 as main_img %}{{ main_img.url }}{% endif %}' }">
+
+      <!-- Left: Image Gallery -->
+      <div>
+        <!-- Main Image -->
+        <div class="mb-4 rounded-lg overflow-hidden shadow-lg bg-gray-100 aspect-[4/3]">
+          {% if self.main_image %}
+          <img :src="mainImage" alt="{{ self.title }}" class="w-full h-full object-cover">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center">
+            <svg class="h-24 w-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Gallery Thumbnails -->
+        {% if self.gallery_images.all %}
+        <div class="flex gap-3 overflow-x-auto pb-2">
+          {% if self.main_image %}
+          {% image self.main_image fill-150x110 as thumb_main %}
+          <button @click="mainImage = '{% image self.main_image fill-800x600 as main_lg %}{{ main_lg.url }}'" class="shrink-0 rounded-md overflow-hidden border-2 border-primary focus:outline-none">
+            <img src="{{ thumb_main.url }}" alt="{{ self.title }}" class="w-20 h-16 object-cover">
+          </button>
+          {% endif %}
+          {% for gallery_item in self.gallery_images.all %}
+          {% image gallery_item.image fill-150x110 as thumb %}
+          {% image gallery_item.image fill-800x600 as gallery_lg %}
+          <button @click="mainImage = '{{ gallery_lg.url }}'" class="shrink-0 rounded-md overflow-hidden border-2 border-transparent hover:border-primary focus:border-primary focus:outline-none transition-colors duration-200">
+            <img src="{{ thumb.url }}" alt="{{ gallery_item.caption|default:self.title }}" class="w-20 h-16 object-cover">
+          </button>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Right: Product Info -->
+      <div>
+        <h1 class="text-3xl lg:text-4xl font-bold text-secondary mb-3">{{ self.title }}</h1>
+        {% if self.short_description %}
+        <p class="text-lg text-steel mb-6 leading-relaxed">{{ self.short_description }}</p>
+        {% endif %}
+        <a href="#enquiry" class="btn-primary inline-block mb-8">Send Enquiry</a>
+
+        {% if self.description %}
+        <div class="prose prose-lg text-gray-700">{{ self.description|richtext }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Specifications -->
+{% if self.specifications %}
+<section class="py-12 lg:py-16 bg-surface">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="section-heading">Specifications</h2>
+    <div class="prose prose-lg max-w-none text-gray-700">{{ self.specifications|richtext }}</div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Features -->
+{% if self.features %}
+<section class="py-12 lg:py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="section-heading">Features &amp; Benefits</h2>
+    <div class="prose prose-lg max-w-none text-gray-700">{{ self.features|richtext }}</div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Enquiry Form -->
+{% include "includes/enquiry_form.html" with product=self %}
+
+<!-- Related Products -->
+{% with related=self.get_siblings.live.specific|slice:":3" %}
+{% if related %}
+<section class="py-12 lg:py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="section-heading text-center">Other Products</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+      {% for product in related %}
+      {% if product.pk != self.pk %}
+      <a href="{% pageurl product %}" class="bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
+        {% if product.main_image %}
+        {% image product.main_image fill-400x300 class="w-full h-48 object-cover" %}
+        {% else %}
+        <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
+          <svg class="h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        {% endif %}
+        <div class="p-4">
+          <h3 class="font-semibold text-secondary group-hover:text-primary transition-colors duration-200">{{ product.title }}</h3>
+        </div>
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+
+{% endblock %}

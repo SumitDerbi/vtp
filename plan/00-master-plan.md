@@ -54,29 +54,29 @@ Few products, clean catalog. White + Sky Blue theme. Professional manufacturing 
 
 - [x] `07` — Install and configure Tailwind CSS (white + sky blue theme)
 - [x] `08` — Create base.html template
-- [ ] `09` — Create header with navigation
-- [ ] `10` — Create footer template
-- [ ] `11` — Create SiteSettings model (logo, contact, social)
-- [ ] `12` — Create common includes (breadcrumbs, CTA banner)
+- [x] `09` — Create header with navigation
+- [x] `10` — Create footer template
+- [x] `11` — Create SiteSettings model (logo, contact, social)
+- [x] `12` — Create common includes (breadcrumbs, CTA banner)
 
 ### Phase 3 — Page Models
 
-- [ ] `13` — HomePage model with hero section
-- [ ] `14` — ProductIndexPage & ProductPage models
-- [ ] `15` — ContactPage & ContactFormSubmission models
-- [ ] `16` — EnquiryFormSubmission model (linked to product)
-- [ ] `17` — BlogIndexPage & BlogPost models
-- [ ] `18` — DownloadIndexPage & DownloadItem models
+- [x] `13` — HomePage model with hero section
+- [x] `14` — ProductIndexPage & ProductPage models
+- [x] `15` — ContactPage & ContactFormSubmission models
+- [x] `16` — EnquiryFormSubmission model (linked to product)
+- [x] `17` — BlogIndexPage & BlogPost models
+- [x] `18` — DownloadIndexPage & DownloadItem models
 
 ### Phase 4 — Templates for All Pages
 
-- [ ] `19` — HomePage template (hero + product showcase + CTA)
-- [ ] `20` — ProductIndexPage template (product grid)
-- [ ] `21` — ProductPage template (detail with enquiry button)
-- [ ] `22` — ContactPage template with form
-- [ ] `23` — BlogIndexPage & BlogPost templates
-- [ ] `24` — DownloadIndexPage template
-- [ ] `25` — Enquiry modal/form template (product-linked)
+- [x] `19` — HomePage template (hero + product showcase + CTA)
+- [x] `20` — ProductIndexPage template (product grid)
+- [x] `21` — ProductPage template (detail with enquiry button)
+- [x] `22` — ContactPage template with form
+- [x] `23` — BlogIndexPage & BlogPost templates
+- [x] `24` — DownloadIndexPage template
+- [x] `25` — Enquiry modal/form template (product-linked)
 
 ### Phase 5 — Forms, Admin Listings & Features
 

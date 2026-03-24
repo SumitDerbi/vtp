@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="relative overflow-hidden min-h-[350px] lg:min-h-[500px] flex items-center {% if not self.hero_image %}bg-gradient-to-br from-primary to-secondary{% else %}bg-secondary{% endif %}">
+  {% if self.hero_image %}
+  {% image self.hero_image fill-1920x700 as hero_bg %}
+  <div class="absolute inset-0">
+    <img src="{{ hero_bg.url }}" alt="" class="w-full h-full object-cover opacity-30">
+  </div>
+  {% endif %}
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 w-full">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">{{ self.hero_title }}</h1>
+      <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">{{ self.hero_subtitle }}</p>
+      {% if self.hero_cta_link %}
+      <a href="{% pageurl self.hero_cta_link %}" class="btn-primary text-lg">{{ self.hero_cta_text }}</a>
+      {% else %}
+      <a href="/products/" class="btn-primary text-lg">{{ self.hero_cta_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+{% if self.about_text %}
+<section class="py-16 lg:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {% if self.about_image %}
+      <div>
+        {% image self.about_image fill-600x400 class="rounded-xl shadow-lg w-full" %}
+      </div>
+      {% endif %}
+      <div>
+        <h2 class="section-heading">{{ self.about_heading }}</h2>
+        <div class="prose prose-lg text-gray-600">{{ self.about_text|richtext }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Featured Products -->
+{% if self.featured_products.all %}
+<section class="py-16 lg:py-24 bg-surface">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="section-heading">Our Products</h2>
+      <p class="text-lg text-gray-600">Precision-engineered tooling for tube bending</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for item in self.featured_products.all %}
+      {% with product=item.product_page.specific %}
+      <a href="{% pageurl item.product_page %}" class="card group overflow-hidden">
+        {% if product.main_image %}
+        {% image product.main_image fill-400x300 class="w-full h-48 object-cover" %}
+        {% else %}
+        <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
+          <svg class="h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        {% endif %}
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-secondary group-hover:text-primary transition-colors duration-200 mb-2">{{ product.title }}</h3>
+          {% if product.short_description %}
+          <p class="text-gray-600 text-sm line-clamp-2">{{ product.short_description }}</p>
+          {% endif %}
+          <span class="inline-block mt-3 text-primary font-medium text-sm group-hover:underline">View Details &rarr;</span>
+        </div>
+      </a>
+      {% endwith %}
+      {% endfor %}
+    </div>
+    <div class="text-center mt-10">
+      <a href="/products/" class="btn-outline">View All Products</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Why Choose Us -->
+<section class="py-16 lg:py-24 bg-secondary">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-white">Why Choose VPT</h2>
+      <p class="text-gray-300 mt-2">Trusted by manufacturers worldwide</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+          <svg class="h-7 w-7 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Precision Engineering</h3>
+        <p class="text-gray-400 text-sm">CNC machined to micron-level accuracy for consistent, reliable performance.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+          <svg class="h-7 w-7 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Quality Assurance</h3>
+        <p class="text-gray-400 text-sm">Rigorous inspection at every stage ensures defect-free tooling every time.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+          <svg class="h-7 w-7 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">On-Time Delivery</h3>
+        <p class="text-gray-400 text-sm">Streamlined production ensures your tooling arrives when you need it.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+          <svg class="h-7 w-7 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Custom Solutions</h3>
+        <p class="text-gray-400 text-sm">Bespoke tooling designed and manufactured to your exact specifications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-gradient-to-r from-primary to-primary-dark py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">{{ self.cta_heading }}</h2>
+    <p class="text-lg text-white/80 mb-8 max-w-2xl mx-auto">{{ self.cta_text }}</p>
+    {% if self.cta_link %}
+    <a href="{% pageurl self.cta_link %}" class="inline-block bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-lg">{{ self.cta_button_text }}</a>
+    {% else %}
+    <a href="/contact/" class="inline-block bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-lg">{{ self.cta_button_text }}</a>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

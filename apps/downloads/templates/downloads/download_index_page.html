@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+{% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-surface py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-secondary">{{ self.heading }}</h1>
+    {% if self.intro %}
+    <div class="prose prose-lg text-gray-600 mx-auto mt-4">{{ self.intro|richtext }}</div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Downloads List -->
+<section class="py-12 lg:py-16">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% if downloads %}
+    <div class="space-y-4">
+      {% for download in downloads %}
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+
+        <!-- Icon / Thumbnail -->
+        <div class="shrink-0">
+          {% if download.thumbnail %}
+          {% image download.thumbnail fill-64x64 as thumb %}
+          <img src="{{ thumb.url }}" alt="{{ thumb.alt }}" width="{{ thumb.width }}" height="{{ thumb.height }}" class="w-16 h-16 rounded-lg object-cover">
+          {% else %}
+          <div class="w-16 h-16 bg-red-50 rounded-lg flex items-center justify-center">
+            <svg class="h-8 w-8 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/><path d="M8 14h8v2H8zm0-3h8v2H8z"/></svg>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Info -->
+        <div class="flex-1 min-w-0">
+          <h2 class="font-semibold text-secondary text-lg">{{ download.title }}</h2>
+          {% if download.description %}
+          <p class="text-gray-600 text-sm mt-1">{{ download.description }}</p>
+          {% endif %}
+          {% if download.category %}
+          <span class="inline-block mt-2 px-2.5 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">{{ download.category }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Download Button -->
+        <a href="{{ download.file.url }}" download class="shrink-0 inline-flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition-colors duration-200">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Download
+        </a>
+
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-16">
+      <svg class="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      <p class="text-gray-500 text-lg">No downloads available yet.</p>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+
+{% endblock %}

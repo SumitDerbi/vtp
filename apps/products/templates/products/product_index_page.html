@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+{% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-surface py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-secondary">{{ self.heading }}</h1>
+    {% if self.intro %}
+    <div class="prose prose-lg text-gray-600 mx-auto mt-4">{{ self.intro|richtext }}</div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Product Grid -->
+<section class="py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {% if products %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for product in products %}
+      <div class="bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+        <a href="{% pageurl product %}">
+          {% if product.main_image %}
+          {% image product.main_image fill-400x300 class="w-full h-56 object-cover" %}
+          {% else %}
+          <div class="w-full h-56 bg-gray-100 flex items-center justify-center">
+            <svg class="h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
+          {% endif %}
+        </a>
+        <div class="p-6">
+          <a href="{% pageurl product %}">
+            <h2 class="text-xl font-semibold text-secondary hover:text-primary transition-colors duration-200 mb-2">{{ product.title }}</h2>
+          </a>
+          {% if product.short_description %}
+          <p class="text-steel text-sm line-clamp-2 mb-4">{{ product.short_description }}</p>
+          {% endif %}
+          <div class="flex items-center gap-3">
+            <a href="{% pageurl product %}" class="text-primary font-medium text-sm hover:underline">View Details &rarr;</a>
+            <a href="{% pageurl product %}#enquiry" class="btn-outline text-xs !py-1.5 !px-3">Send Enquiry</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-16">
+      <svg class="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      <h3 class="text-xl font-semibold text-gray-500 mb-2">No products available yet</h3>
+      <p class="text-gray-400">Check back soon for our product catalog.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+
+{% endblock %}

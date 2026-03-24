@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+{% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-surface py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-secondary">{{ self.title }}</h1>
+    {% if self.intro %}
+    <div class="prose prose-lg text-gray-600 mx-auto mt-4">{{ self.intro|richtext }}</div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Blog Grid -->
+<section class="py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% if posts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for post in posts %}
+      <a href="{% pageurl post %}" class="group bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col">
+        {% if post.featured_image %}
+        {% image post.featured_image fill-400x250 as post_img %}
+        <img src="{{ post_img.url }}" alt="{{ post_img.alt }}" width="{{ post_img.width }}" height="{{ post_img.height }}" class="w-full h-[250px] object-cover">
+        {% else %}
+        <div class="w-full h-[250px] bg-gray-200 flex items-center justify-center">
+          <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        </div>
+        {% endif %}
+        <div class="p-5 flex flex-col flex-1">
+          <p class="text-sm text-steel mb-2">{{ post.date|date:"F j, Y" }}</p>
+          <h2 class="text-lg font-semibold text-secondary group-hover:text-primary transition-colors duration-200 mb-2">{{ post.title }}</h2>
+          {% if post.excerpt %}
+          <p class="text-gray-600 text-sm line-clamp-3 flex-1">{{ post.excerpt }}</p>
+          {% endif %}
+          <span class="text-primary font-medium text-sm mt-4 inline-flex items-center gap-1">Read More <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-16">
+      <svg class="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+      <p class="text-gray-500 text-lg">No blog posts yet.</p>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+
+{% endblock %}

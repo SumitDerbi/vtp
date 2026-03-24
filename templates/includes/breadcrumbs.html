@@ -1,0 +1,56 @@
+{% load wagtailcore_tags %}
+{% if self.get_ancestors|length > 1 %}
+<nav class="bg-white border-b border-gray-100" aria-label="Breadcrumb">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+    <ol class="flex flex-wrap items-center gap-1 text-sm text-steel">
+      <li>
+        <a
+          href="/"
+          class="text-primary hover:text-primary-dark transition-colors duration-200"
+          >Home</a
+        >
+      </li>
+      {% for ancestor in self.get_ancestors %} {% if not ancestor.is_root %}
+      <li class="flex items-center gap-1">
+        <svg
+          class="h-4 w-4 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+        <a
+          href="{% pageurl ancestor %}"
+          class="text-primary hover:text-primary-dark transition-colors duration-200"
+          >{{ ancestor.title }}</a
+        >
+      </li>
+      {% endif %} {% endfor %}
+      <li class="flex items-center gap-1">
+        <svg
+          class="h-4 w-4 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+        <span class="text-steel font-medium" aria-current="page"
+          >{{ self.title }}</span
+        >
+      </li>
+    </ol>
+  </div>
+</nav>
+{% endif %}

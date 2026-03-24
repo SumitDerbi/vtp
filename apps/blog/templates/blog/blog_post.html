@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+{% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Article Header -->
+<section class="bg-surface py-12 lg:py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-secondary">{{ self.title }}</h1>
+    <div class="mt-4 flex items-center justify-center gap-4 text-steel text-sm">
+      <time datetime="{{ self.date|date:'Y-m-d' }}">{{ self.date|date:"F j, Y" }}</time>
+      {% if self.author %}
+      <span>&middot;</span>
+      <span>{{ self.author }}</span>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Article Content -->
+<article class="py-12 lg:py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Featured Image -->
+    {% if self.featured_image %}
+    <div class="mb-10">
+      {% image self.featured_image width-1200 as hero_img %}
+      <img src="{{ hero_img.url }}" alt="{{ hero_img.alt }}" width="{{ hero_img.width }}" height="{{ hero_img.height }}" class="w-full max-h-96 object-cover rounded-lg shadow">
+    </div>
+    {% endif %}
+
+    <!-- Body -->
+    <div class="prose prose-lg max-w-3xl mx-auto prose-headings:text-secondary prose-a:text-primary prose-img:rounded-lg">
+      {{ self.body|richtext }}
+    </div>
+
+    <!-- Back Link -->
+    <div class="max-w-3xl mx-auto mt-12 pt-8 border-t border-gray-200">
+      {% with self.get_parent as blog_index %}
+      <a href="{% pageurl blog_index %}" class="inline-flex items-center gap-2 text-primary font-medium hover:underline">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Back to {{ blog_index.title }}
+      </a>
+      {% endwith %}
+    </div>
+
+  </div>
+</article>
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+
+{% endblock %}
