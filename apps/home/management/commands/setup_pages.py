@@ -19,6 +19,7 @@ class Command(BaseCommand):
         home = HomePage.objects.first()
         if home:
             self.stdout.write(self.style.SUCCESS("HomePage already exists ✓"))
+            created_home = False
         else:
             # Remove default Wagtail welcome page if present
             Page.objects.filter(depth=2, slug="home").delete()
@@ -30,17 +31,16 @@ class Command(BaseCommand):
                 hero_title="Precision CNC Tube Bending Tooling",
                 hero_subtitle="High-quality bend dies, clamp dies, pressure dies, wiper inserts, mandrels and accessories for CNC tube bending machines.",
                 hero_cta_text="View Products",
-                hero_cta_link="/products/",
                 about_heading="About Vinsat Precision Technologies",
                 about_text="<p>We are a leading manufacturer of precision CNC tube bending tooling, delivering quality solutions to manufacturers worldwide.</p>",
                 cta_heading="Ready to Get Started?",
                 cta_text="Contact us for a quote or to discuss your tooling requirements.",
                 cta_button_text="Contact Us",
-                cta_link="/contact/",
             )
             root_page.add_child(instance=home)
             home.save_revision().publish()
             self.stdout.write(self.style.SUCCESS("Creating HomePage... ✓"))
+            created_home = True
 
         # --- Child pages ---
         # AboutPage
@@ -100,7 +100,7 @@ class Command(BaseCommand):
         )
 
         # ContactPage
-        self._get_or_create_child(
+        contact_page = self._get_or_create_child(
             home,
             ContactPage,
             title="Contact Us",
@@ -110,6 +110,13 @@ class Command(BaseCommand):
                 "success_message": "Thank you for contacting us. We will get back to you shortly.",
             },
         )
+
+        # --- Link HomePage CTA buttons to child pages ---
+        if created_home:
+            home.hero_cta_link = products_page
+            home.cta_link = contact_page
+            home.save_revision().publish()
+            self.stdout.write(self.style.SUCCESS("HomePage CTA links updated ✓"))
 
         # --- Product pages ---
         product_names = [
