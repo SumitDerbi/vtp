@@ -10,7 +10,7 @@
           >Home</a
         >
       </li>
-      {% for ancestor in self.get_ancestors %} {% if not ancestor.is_root %}
+      {% for ancestor in self.get_ancestors %} {% if not ancestor.is_root and ancestor.depth > 2 %}
       <li class="flex items-center gap-1">
         <svg
           class="h-4 w-4 text-gray-400"
