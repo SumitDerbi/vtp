@@ -1,18 +1,26 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static wagtailcore_tags wagtailuserbar wagtailmetadata_tags wagtailsettings_tags wagtailimages_tags %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="{% block meta_description %}Vinsat Precision Technologies — Precision CNC tube bending tooling manufacturer.{% endblock %}"
-    />
 
     <title>
       {% block title %}{{ self.seo_title|default:self.title }} | Vinsat
       Precision Technologies{% endblock %}
     </title>
+
+    {% meta_tags %}
+    <link rel="canonical" href="{{ self.full_url }}" />
+
+    {% with site_settings=settings.common.SiteSettings %}
+    {% if site_settings.favicon %}
+    {% image site_settings.favicon fill-32x32 as favicon_img %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ favicon_img.url }}" />
+    {% image site_settings.favicon fill-16x16 as favicon_sm %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ favicon_sm.url }}" />
+    {% endif %}
+    {% endwith %}
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,6 +32,29 @@
 
     <!-- Tailwind CSS -->
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Vinsat Precision Technologies",
+      "description": "Precision CNC tube bending tooling manufacturer",
+      "url": "{{ request.scheme }}://{{ request.get_host }}"
+    }
+    </script>
+
+    {% with ga_id=settings.common.SiteSettings.google_analytics_id %}
+    {% if ga_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ ga_id }}');
+    </script>
+    {% endif %}
+    {% endwith %}
 
     {% block extra_css %}{% endblock %}
   </head>

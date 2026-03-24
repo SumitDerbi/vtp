@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+  {% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+<!-- Hero / Banner -->
+<section class="relative overflow-hidden min-h-[250px] lg:min-h-[350px] flex items-center {% if not self.banner_image %}bg-gradient-to-br from-primary to-secondary{% else %}bg-secondary{% endif %}">
+  {% if self.banner_image %}
+  {% image self.banner_image fill-1920x500 as banner_bg %}
+  <div class="absolute inset-0">
+    <img src="{{ banner_bg.url }}" alt="" class="w-full h-full object-cover opacity-30" loading="lazy">
+  </div>
+  {% endif %}
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full text-center">
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white">{{ self.heading }}</h1>
+  </div>
+</section>
+
+<!-- Intro -->
+{% if self.intro %}
+<section class="py-12 lg:py-16 bg-surface">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">{{ self.intro }}</p>
+  </div>
+</section>
+{% endif %}
+
+<!-- Body Content -->
+{% if self.body %}
+<section class="py-12 lg:py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="prose prose-lg max-w-none text-gray-700">
+      {{ self.body|richtext }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Image Gallery -->
+{% if self.gallery_images.all %}
+<section class="py-16 lg:py-24 bg-surface" x-data="{ lightbox: false, current: 0, images: [{% for item in self.gallery_images.all %}{% image item.image fill-1200x800 as lg_img %}{ url: '{{ lg_img.url }}', caption: '{{ item.caption|escapejs }}' }{% if not forloop.last %},{% endif %}{% endfor %}] }">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-secondary text-center mb-10">Facility Gallery</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for item in self.gallery_images.all %}
+      <button
+        @click="current = {{ forloop.counter0 }}; lightbox = true"
+        class="group relative overflow-hidden rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 aspect-[4/3] bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+      >
+        {% image item.image fill-600x450 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" %}
+        {% if item.caption %}
+        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+          <p class="text-white text-sm font-medium">{{ item.caption }}</p>
+        </div>
+        {% endif %}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div
+    x-show="lightbox"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image lightbox"
+    @keydown.escape.window="lightbox = false"
+    @keydown.arrow-right.window="current = (current + 1) % images.length"
+    @keydown.arrow-left.window="current = (current - 1 + images.length) % images.length"
+  >
+    <!-- Close -->
+    <button
+      @click="lightbox = false"
+      class="absolute top-4 right-4 text-white/80 hover:text-white z-10"
+      aria-label="Close lightbox"
+    >
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Prev -->
+    <button
+      @click="current = (current - 1 + images.length) % images.length"
+      class="absolute left-4 text-white/80 hover:text-white z-10"
+      aria-label="Previous image"
+    >
+      <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Image -->
+    <div class="max-w-5xl max-h-[85vh] flex flex-col items-center" @click.outside="lightbox = false">
+      <img :src="images[current].url" :alt="images[current].caption" class="max-w-full max-h-[75vh] object-contain rounded-lg">
+      <p x-show="images[current].caption" x-text="images[current].caption" class="text-white/80 text-sm mt-3 text-center"></p>
+      <p class="text-white/50 text-xs mt-1" x-text="(current + 1) + ' / ' + images.length"></p>
+    </div>
+
+    <!-- Next -->
+    <button
+      @click="current = (current + 1) % images.length"
+      class="absolute right-4 text-white/80 hover:text-white z-10"
+      aria-label="Next image"
+    >
+      <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+{% endblock %}

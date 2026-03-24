@@ -3,9 +3,10 @@ from django.db import models
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
+from wagtailmetadata.models import MetadataPageMixin
 
 
-class BlogIndexPage(Page):
+class BlogIndexPage(MetadataPageMixin, Page):
     max_count = 1
     parent_page_types = ["home.HomePage"]
     subpage_types = ["blog.BlogPost"]
@@ -23,7 +24,7 @@ class BlogIndexPage(Page):
         return context
 
 
-class BlogPost(Page):
+class BlogPost(MetadataPageMixin, Page):
     parent_page_types = ["blog.BlogIndexPage"]
     subpage_types = []
 

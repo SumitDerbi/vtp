@@ -40,6 +40,18 @@
           Home
         </a>
         <a
+          href="/about/"
+          class="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 {% if '/about/' in request.path %}text-primary{% else %}text-secondary hover:text-primary{% endif %}"
+        >
+          About
+        </a>
+        <a
+          href="/facility/"
+          class="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 {% if '/facility/' in request.path %}text-primary{% else %}text-secondary hover:text-primary{% endif %}"
+        >
+          Facility
+        </a>
+        <a
           href="/products/"
           class="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 {% if '/products/' in request.path %}text-primary{% else %}text-secondary hover:text-primary{% endif %}"
         >
@@ -129,6 +141,18 @@
         class="block px-3 py-2 rounded-md text-base font-medium {% if request.path == '/' %}text-primary bg-surface{% else %}text-secondary hover:text-primary hover:bg-surface{% endif %}"
       >
         Home
+      </a>
+      <a
+        href="/about/"
+        class="block px-3 py-2 rounded-md text-base font-medium {% if '/about/' in request.path %}text-primary bg-surface{% else %}text-secondary hover:text-primary hover:bg-surface{% endif %}"
+      >
+        About
+      </a>
+      <a
+        href="/facility/"
+        class="block px-3 py-2 rounded-md text-base font-medium {% if '/facility/' in request.path %}text-primary bg-surface{% else %}text-secondary hover:text-primary hover:bg-surface{% endif %}"
+      >
+        Facility
       </a>
       <a
         href="/products/"

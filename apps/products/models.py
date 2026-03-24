@@ -4,9 +4,10 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable, Page
+from wagtailmetadata.models import MetadataPageMixin
 
 
-class ProductIndexPage(Page):
+class ProductIndexPage(MetadataPageMixin, Page):
     max_count = 1
     parent_page_types = ["home.HomePage"]
     subpage_types = ["products.ProductPage"]
@@ -27,7 +28,7 @@ class ProductIndexPage(Page):
         return context
 
 
-class ProductPage(Page):
+class ProductPage(MetadataPageMixin, Page):
     parent_page_types = ["products.ProductIndexPage"]
     subpage_types = []
 

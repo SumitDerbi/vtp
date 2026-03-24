@@ -3,9 +3,10 @@ from django.db import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
+from wagtailmetadata.models import MetadataPageMixin
 
 
-class ContactPage(Page):
+class ContactPage(MetadataPageMixin, Page):
     max_count = 1
     parent_page_types = ["home.HomePage"]
     subpage_types = []

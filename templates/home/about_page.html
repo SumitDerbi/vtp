@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block breadcrumbs %}
+  {% include "includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+<!-- Hero / Banner -->
+<section class="relative overflow-hidden min-h-[250px] lg:min-h-[350px] flex items-center {% if not self.banner_image %}bg-gradient-to-br from-primary to-secondary{% else %}bg-secondary{% endif %}">
+  {% if self.banner_image %}
+  {% image self.banner_image fill-1920x500 as banner_bg %}
+  <div class="absolute inset-0">
+    <img src="{{ banner_bg.url }}" alt="" class="w-full h-full object-cover opacity-30" loading="lazy">
+  </div>
+  {% endif %}
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full text-center">
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white">{{ self.heading }}</h1>
+  </div>
+</section>
+
+<!-- Intro -->
+{% if self.intro %}
+<section class="py-12 lg:py-16 bg-surface">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-lg md:text-xl text-gray-600 leading-relaxed">{{ self.intro }}</p>
+  </div>
+</section>
+{% endif %}
+
+<!-- Body Content -->
+{% if self.body %}
+<section class="py-12 lg:py-16 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="prose prose-lg max-w-none text-gray-700">
+      {{ self.body|richtext }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Mission & Vision -->
+{% if self.mission_text or self.vision_text %}
+<section class="py-16 lg:py-24 bg-surface">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      {% if self.mission_text %}
+      <div class="bg-white rounded-xl shadow-sm p-8 lg:p-10 border border-gray-100">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h2 class="text-xl lg:text-2xl font-bold text-secondary">{{ self.mission_heading|default:"Our Mission" }}</h2>
+        </div>
+        <p class="text-gray-600 leading-relaxed">{{ self.mission_text }}</p>
+      </div>
+      {% endif %}
+
+      {% if self.vision_text %}
+      <div class="bg-white rounded-xl shadow-sm p-8 lg:p-10 border border-gray-100">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <h2 class="text-xl lg:text-2xl font-bold text-secondary">{{ self.vision_heading|default:"Our Vision" }}</h2>
+        </div>
+        <p class="text-gray-600 leading-relaxed">{{ self.vision_text }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA Banner -->
+{% include "includes/cta_banner.html" %}
+{% endblock %}

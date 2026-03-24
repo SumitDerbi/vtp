@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from wagtail.models import Page, Site
 
-from apps.home.models import HomePage
+from apps.home.models import AboutPage, FacilityPage, HomePage
 from apps.products.models import ProductIndexPage, ProductPage
 from apps.blog.models import BlogIndexPage
 from apps.downloads.models import DownloadIndexPage
@@ -43,6 +43,36 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS("Creating HomePage... ✓"))
 
         # --- Child pages ---
+        # AboutPage
+        self._get_or_create_child(
+            home,
+            AboutPage,
+            title="About Us",
+            slug="about",
+            defaults={
+                "heading": "About Us",
+                "intro": "Vinsat Precision Technologies is a leading manufacturer of precision CNC tube bending tooling.",
+                "body": "<p>With years of experience in precision manufacturing, we deliver high-quality tooling solutions to manufacturers worldwide.</p>",
+                "mission_heading": "Our Mission",
+                "mission_text": "To provide world-class precision tooling that helps manufacturers achieve excellence in tube bending operations.",
+                "vision_heading": "Our Vision",
+                "vision_text": "To be the global leader in CNC tube bending tooling solutions.",
+            },
+        )
+
+        # FacilityPage
+        self._get_or_create_child(
+            home,
+            FacilityPage,
+            title="Our Facility",
+            slug="facility",
+            defaults={
+                "heading": "Our Facility",
+                "intro": "State-of-the-art manufacturing facility equipped with advanced CNC machinery.",
+                "body": "<p>Our facility houses precision CNC machines and quality inspection equipment to manufacture high-quality tube bending tooling.</p>",
+            },
+        )
+
         # ProductIndexPage
         products_page = self._get_or_create_child(
             home,

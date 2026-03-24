@@ -1,16 +1,3 @@
-# Prompt 35 — deployment.sh Script
-
-## Goal
-
-Create a deployment script similar to the reference project.
-
-## Prompt
-
-```
-Create deployment.sh for VTP production deployment.
-
-File: deployment.sh
-
 #!/bin/bash
 set -e
 
@@ -47,29 +34,3 @@ sudo systemctl restart vtp
 
 echo ""
 echo "=== Deployment complete! ==="
-
-Make it executable: chmod +x deployment.sh
-
-Also create:
-File: deployment_first_time.sh
-- First-time setup script:
-  - Create venv
-  - Install requirements
-  - npm install
-  - npm run build
-  - Run migrations
-  - Create superuser
-  - Setup pages (python manage.py setup_pages)
-  - Collect static
-```
-
-## Verification
-
-1. deployment.sh exists and is executable
-2. deployment_first_time.sh exists
-3. Scripts have correct paths and commands
-
-## Expected Result
-
-- One-command deployment: `./deployment.sh`
-- First-time setup: `./deployment_first_time.sh`

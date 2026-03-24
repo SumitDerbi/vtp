@@ -23,10 +23,10 @@
     {% if products %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for product in products %}
-      <div class="bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-        <a href="{% pageurl product %}">
+      <article class="bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+        <a href="{% pageurl product %}" class="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl">
           {% if product.main_image %}
-          {% image product.main_image fill-400x300 class="w-full h-56 object-cover" %}
+          {% image product.main_image fill-400x300 class="w-full h-56 object-cover" loading="lazy" %}
           {% else %}
           <div class="w-full h-56 bg-gray-100 flex items-center justify-center">
             <svg class="h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
@@ -45,7 +45,7 @@
             <a href="{% pageurl product %}#enquiry" class="btn-outline text-xs !py-1.5 !px-3">Send Enquiry</a>
           </div>
         </div>
-      </div>
+      </article>
       {% endfor %}
     </div>
     {% else %}

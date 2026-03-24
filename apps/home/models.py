@@ -4,9 +4,10 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable, Page
+from wagtailmetadata.models import MetadataPageMixin
 
 
-class HomePage(Page):
+class HomePage(MetadataPageMixin, Page):
     max_count = 1
 
     # Hero Section
@@ -92,3 +93,85 @@ class FeaturedProduct(Orderable):
     )
 
     panels = [FieldPanel("product_page")]
+
+
+class AboutPage(MetadataPageMixin, Page):
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+    max_count = 1
+
+    heading = models.CharField(max_length=255, default="About Us")
+    intro = models.TextField(blank=True)
+    body = RichTextField(blank=True)
+    banner_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    mission_heading = models.CharField(max_length=255, blank=True)
+    mission_text = models.TextField(blank=True)
+    vision_heading = models.CharField(max_length=255, blank=True)
+    vision_text = models.TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("heading"),
+        FieldPanel("intro"),
+        FieldPanel("body"),
+        FieldPanel("banner_image"),
+        MultiFieldPanel(
+            [
+                FieldPanel("mission_heading"),
+                FieldPanel("mission_text"),
+            ],
+            heading="Mission",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("vision_heading"),
+                FieldPanel("vision_text"),
+            ],
+            heading="Vision",
+        ),
+    ]
+
+
+class FacilityPage(MetadataPageMixin, Page):
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+    max_count = 1
+
+    heading = models.CharField(max_length=255, default="Our Facility")
+    intro = models.TextField(blank=True)
+    body = RichTextField(blank=True)
+    banner_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("heading"),
+        FieldPanel("intro"),
+        FieldPanel("body"),
+        FieldPanel("banner_image"),
+        InlinePanel("gallery_images", label="Gallery Images"),
+    ]
+
+
+class FacilityGalleryImage(Orderable):
+    page = ParentalKey(FacilityPage, related_name="gallery_images")
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    caption = models.CharField(max_length=255, blank=True)
+
+    panels = [
+        FieldPanel("image"),
+        FieldPanel("caption"),
+    ]

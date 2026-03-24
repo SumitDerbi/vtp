@@ -29,7 +29,7 @@
     {% if self.featured_image %}
     <div class="mb-10">
       {% image self.featured_image width-1200 as hero_img %}
-      <img src="{{ hero_img.url }}" alt="{{ hero_img.alt }}" width="{{ hero_img.width }}" height="{{ hero_img.height }}" class="w-full max-h-96 object-cover rounded-lg shadow">
+      <img src="{{ hero_img.url }}" alt="{{ hero_img.alt }}" width="{{ hero_img.width }}" height="{{ hero_img.height }}" class="w-full max-h-96 object-cover rounded-lg shadow" loading="lazy">
     </div>
     {% endif %}
 

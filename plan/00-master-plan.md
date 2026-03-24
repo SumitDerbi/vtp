@@ -17,15 +17,16 @@ Few products, clean catalog. White + Sky Blue theme. Professional manufacturing 
 
 ## Phase Overview
 
-| Phase       | Focus                      | Prompts |
-| ----------- | -------------------------- | ------- |
-| **Phase 1** | Project Setup & Foundation | 01–06   |
-| **Phase 2** | Tailwind, Base Templates   | 07–12   |
-| **Phase 3** | Page Models (all)          | 13–18   |
-| **Phase 4** | Templates for All Pages    | 19–25   |
-| **Phase 5** | Forms, Admin & Features    | 26–29   |
-| **Phase 6** | Setup Command & Content    | 30–32   |
-| **Phase 7** | SEO, Deployment & Go-Live  | 33–37   |
+| Phase       | Focus                      | Prompts   |
+| ----------- | -------------------------- | --------- |
+| **Phase 1** | Project Setup & Foundation | 01–06     |
+| **Phase 2** | Tailwind, Base Templates   | 07–12     |
+| **Phase 3** | Page Models (all)          | 13–18     |
+| **Phase 4** | Templates for All Pages    | 19–25     |
+| **Phase 5** | Forms, Admin & Features    | 26–29     |
+| **Phase 6** | Setup Command & Content    | 30–32     |
+| **Phase 7** | About & Facility Pages     | 34–35     |
+| **Phase 8** | SEO, Deployment & Go-Live  | 33, 36–39 |
 
 ---
 
@@ -91,13 +92,18 @@ Few products, clean catalog. White + Sky Blue theme. Professional manufacturing 
 - [x] `31` — Image requirements document
 - [x] `32` — Upload sample content & verify all pages
 
-### Phase 7 — SEO, Deployment & Go-Live
+### Phase 7 — About & Facility Pages
 
-- [ ] `33` — SEO meta tags, sitemap, robots.txt
-- [ ] `34` — Responsive testing & performance
-- [ ] `35` — deployment.sh script
-- [ ] `36` — Docker & production configuration
-- [ ] `37` — Final build & go-live checklist
+- [x] `34` — About page (model + template)
+- [x] `35` — Facility page (model + template + gallery)
+
+### Phase 8 — SEO, Deployment & Go-Live
+
+- [x] `33` — SEO meta tags, sitemap, robots.txt
+- [x] `36` — Responsive testing & performance
+- [x] `37` — deployment.sh script
+- [x] `38` — Docker & production configuration
+- [x] `39` — Final build & go-live checklist
 
 ---
 
@@ -118,6 +124,8 @@ Few products, clean catalog. White + Sky Blue theme. Professional manufacturing 
 ```
 Root
 └── Home (HomePage)
+    ├── About Us (AboutPage)
+    ├── Our Facility (FacilityPage)
     ├── Products (ProductIndexPage)
     │   ├── Bend Dies (ProductPage)
     │   ├── Clamp Dies (ProductPage)

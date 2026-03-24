@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+.env
+.git/
+.gitignore
+node_modules/
+*.md
+plan/
+doc/
+.prettierignore

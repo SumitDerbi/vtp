@@ -3,6 +3,8 @@ we have less products
 need following pages
 
 - Home
+- About
+- Facility
 - Products
 - Contact
 - Enquiry
